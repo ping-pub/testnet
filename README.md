@@ -8,14 +8,14 @@
 
 [![version](https://img.shields.io/github/tag/ping-pub/ping.pub.svg)](https://github.com/ping-pub/explorer/releases/latest)
 [![GitHub](https://img.shields.io/github/license/ping-pub/ping.pub.svg)](https://github.com/ping-pub/explorer/blob/master/LICENSE)
-[![Ping Deploy](https://github.com/ping-pub/ping.pub/actions/workflows/deploy.yaml/badge.svg)](https://github.com/ping-pub/ping.pub/actions/workflows/deploy.yaml)
+[![Ping Testnet Deploy](https://github.com/ping-pub/testnet/actions/workflows/deploy.yaml/badge.svg)](https://github.com/ping-pub/testnet/actions/workflows/deploy.yaml)
 [![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/bukotsunikki.svg?style=social&label=Follow%20%40ping_pub)](https://twitter.com/ping_pub)
 [![https://discord.gg/CmjYVSr6GW](https://img.shields.io/badge/discord-join-7289DA.svg?logo=discord&longCache=true&style=flat)](https://discord.gg/CmjYVSr6GW)
 
 
 </div>
 
-This is a repository of deployment of  https://ping.pub .
+This is a repository of deployment of https://testnet.ping.pub.
 
 ## Are you interested in listing your blockchain on Ping Dashboard?
 
@@ -42,7 +42,7 @@ Your donation will help us make better products. Thanks in advance.
 
 - Submit configs for mainnet, go to https://github.com/ping-pub/ping.pub/tree/main/chains/mainnet
 
-- Submit configs for testnet, go to https://github.com/ping-pub/ping.pub/tree/main/chains/testnet
+- Submit configs for testnet, open a PR in this repository: https://github.com/ping-pub/testnet/tree/main/chains/testnet
 
 # Example of Config
 
@@ -154,7 +154,6 @@ Test Result:
 - [ ] withdraw Rewards
 ```
 Test is very important for us and our users. 
-
 
 
 
