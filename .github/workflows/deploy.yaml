@@ -35,8 +35,11 @@ jobs:
           cache: yarn
           cache-dependency-path: explorer/yarn.lock
 
-      - name: Setup config
-        run: cp -rf chains/* explorer/chains/
+      - name: Setup testnet config
+        run: |
+          mkdir -p explorer/chains/testnet
+          rm -f explorer/chains/mainnet/*.json explorer/chains/testnet/*.json
+          cp chains/testnet/*.json explorer/chains/testnet/
 
       - name: Install dependencies
         working-directory: explorer
@@ -50,6 +53,9 @@ jobs:
 
       - name: Copy logos
         run: cp -rf logos explorer/dist/
+
+      - name: Set custom domain
+        run: echo testnet.ping.pub > explorer/dist/CNAME
 
       - name: Create SPA 404 fallback
         run: cp explorer/dist/index.html explorer/dist/404.html
