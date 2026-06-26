@@ -41,6 +41,57 @@ jobs:
           perl -0pi -e "s#display: 'inline-block',\n  width:#display: 'block',\n  margin: '0 auto',\n  width:#" explorer/src/components/ad/AdBanner.vue
           grep -n "const adStyle" -A6 explorer/src/components/ad/AdBanner.vue
 
+      - name: Disable CoinGecko on testnet
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+
+          const updateFile = (path, replacements) => {
+            let source = fs.readFileSync(path, 'utf8');
+            for (const [from, to] of replacements) {
+              if (!source.includes(from)) {
+                throw new Error(`Expected text not found in ${path}: ${from}`);
+              }
+              source = source.replace(from, to);
+            }
+            fs.writeFileSync(path, source);
+          };
+
+          updateFile('explorer/src/stores/useCoinGecko.ts', [
+            [
+              "const LocalStoreKey = 'currency';",
+              "const LocalStoreKey = 'currency';\nconst disableCoingecko = window.location.hostname.includes('testnet');",
+            ],
+            [
+              "return get(`${coingeckoUrl}/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=${days}`);",
+              "return disableCoingecko\n        ? Promise.resolve({ prices: [], market_caps: [], total_volumes: [] })\n        : get(`${coingeckoUrl}/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=${days}`);",
+            ],
+            [
+              "fetchCoinPrice(ids: string[]) {",
+              "fetchCoinPrice(ids: string[]) {\n      if (disableCoingecko) return;",
+            ],
+            [
+              "return get(`${coingeckoUrl}/api/v3/coins/${coinId}`);",
+              "return disableCoingecko ? Promise.resolve({ tickers: [] }) : get(`${coingeckoUrl}/api/v3/coins/${coinId}`);",
+            ],
+          ]);
+
+          updateFile('explorer/src/stores/useDashboard.ts', [
+            [
+              "loadingPrices() {",
+              "loadingPrices() {\n      if (window.location.hostname.includes('testnet')) return;",
+            ],
+          ]);
+
+          updateFile('explorer/src/modules/wallet/portfolio.vue', [
+            [
+              "function loadPrice() {",
+              "function loadPrice() {\n  if (window.location.hostname.includes('testnet')) return;",
+            ],
+          ]);
+          NODE
+          grep -n "disableCoingecko\|loadingPrices\|function loadPrice" explorer/src/stores/useCoinGecko.ts explorer/src/stores/useDashboard.ts explorer/src/modules/wallet/portfolio.vue
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
