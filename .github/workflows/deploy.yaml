@@ -36,6 +36,11 @@ jobs:
           perl -0pi -e "s#(frame-src[^;]*https://wallet\.keplr\.app)#\$1 https://v1.slise.xyz#" explorer/index.html
           grep -n "Content-Security-Policy" -A1 explorer/index.html
 
+      - name: Center Slise ad banner
+        run: |
+          perl -0pi -e "s#display: 'inline-block',\n  width:#display: 'block',\n  margin: '0 auto',\n  width:#" explorer/src/components/ad/AdBanner.vue
+          grep -n "const adStyle" -A6 explorer/src/components/ad/AdBanner.vue
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
